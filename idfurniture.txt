@@ -1,0 +1,5 @@
+ID_NAMA_FURNITURE
+1:lampu
+2:meja
+3:lemari
+4:kursi
