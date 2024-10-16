@@ -29,7 +29,7 @@ class Application(tk.Tk):
     def create_widgets(self):
         # Home frame widgets
         canvas = Canvas(self.home_frame, width=400, height=150, bg="#FFA559", highlightthickness=0)
-        canvas.create_text(200, 75, text="DATA MOBIL", font=("Helvetica", 24, "bold"), fill="white")
+        canvas.create_text(200, 75, text="DATA FURNITURE", font=("Helvetica", 24, "bold"), fill="white")
         canvas.pack()
 
         frame = tk.Frame(self.home_frame)
@@ -302,7 +302,7 @@ class Application(tk.Tk):
             index = selected_indices[0]
             selected_item = listbox.get(index)
             item_id = selected_item.split(":")[0].strip()
-            details = self.data_manager.furniture.get_detail_mobil(item_id)
+            details = self.data_manager.furniture.get_detail_furniture(item_id)
             if details:
                 detail_text = f"Nama furniture: {details['nama_furniture']}\nUkuran: {details['ukuran']}\nWarna: {details['warna']}"
                 self.detail_label.config(text=detail_text)
