@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import messagebox, Canvas
 from datamanager import DataManager
 
-
 class Application(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -54,10 +53,10 @@ class Application(tk.Tk):
         button_warna.grid(row=0, column=2, padx=20)
 
         # Data frames (Furniture, Warna, Ukuran)
-        for frame, title in [
-            (self.furniture_frame, "List Furniture"),
-            (self.warna_frame, "List Warna"),
-            (self.ukuran_frame, "List Ukuran")
+        for data_type, frame, title in [
+            ('furniture', self.furniture_frame, "List Furniture"),
+            ('warna', self.warna_frame, "List Warna"),
+            ('ukuran', self.ukuran_frame, "List Ukuran")
         ]:
             label = tk.Label(frame, text=title, font=("Helvetica", 16))
             label.pack(pady=10)
@@ -69,19 +68,18 @@ class Application(tk.Tk):
             edit_button = tk.Button(frame, text="Edit", command=lambda f=frame: self.show_edit_dialog(f))
             edit_button.pack(side=tk.LEFT, padx=5, pady=5)
 
+            add_button = tk.Button(frame, text="+", command=lambda dt=data_type: self.show_add_frame(dt))
+            add_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+            delete_button = tk.Button(frame, text="-", command=lambda dt=data_type: self.delete_action(dt))
+            delete_button.pack(side=tk.RIGHT, padx=5, pady=5)
+
             back_button = tk.Button(frame, text="Kembali", command=self.show_home)
             back_button.pack(pady=10)
 
-            if frame == self.furniture_frame:
+            if data_type == 'furniture':
                 detail_button = tk.Button(frame, text="Tampilkan Detail", command=self.show_furniture_detail)
                 detail_button.pack(pady=5)
-
-            if frame in [self.warna_frame, self.ukuran_frame, self.furniture_frame]:
-                add_button = tk.Button(frame, text="+", command=self.show_add_frame(frame))
-                add_button.pack(side=tk.LEFT, padx=5, pady=5)
-
-                delete_button = tk.Button(frame, text="-", command=lambda: self.delete_action(self.current_data_type))
-                delete_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
         # Add item frames
         self.create_add_frames()
@@ -139,6 +137,15 @@ class Application(tk.Tk):
         tambah_button = tk.Button(self.furniture_tambah_frame, text="Tambah", command=self.tambah_furniture)
         tambah_button.pack(pady=10)
 
+    def show_add_frame(self, data_type):
+        self.hide_all_frames()
+        if data_type == 'warna':
+            self.warna_tambah_frame.pack()
+        elif data_type == 'ukuran':
+            self.ukuran_tambah_frame.pack()
+        elif data_type == 'furniture':
+            self.furniture_tambah_frame.pack()
+
     def show_home(self):
         self.hide_all_frames()
         self.home_frame.pack()
@@ -148,19 +155,21 @@ class Application(tk.Tk):
         if data_type:
             self.current_data_type = data_type
 
-        if self.current_data_type == 'furniture':
+        if data_type == 'furniture':
             self.furniture_frame.pack()
-        elif self.current_data_type == 'warna':
+        elif data_type == 'warna':
             self.warna_frame.pack()
-        elif self.current_data_type == 'ukuran':
+        elif data_type == 'ukuran':
             self.ukuran_frame.pack()
 
-        self.update_listbox(self.current_data_type)
+        self.update_listbox(data_type)
 
     def hide_all_frames(self):
-        for frame in (self.home_frame, self.furniture_frame, self.warna_frame, self.ukuran_frame,
-                      self.warna_tambah_frame, self.ukuran_tambah_frame, self.furniture_tambah_frame,
-                      self.detail_frame, self.edit_frame):
+        for frame in (
+            self.home_frame, self.furniture_frame, self.warna_frame, self.ukuran_frame,
+            self.warna_tambah_frame, self.ukuran_tambah_frame, self.furniture_tambah_frame,
+            self.detail_frame, self.edit_frame
+        ):
             frame.pack_forget()
 
     def update_listbox(self, data_type):
@@ -186,8 +195,6 @@ class Application(tk.Tk):
             self.data_manager.tambah_warna(warna)
             self.update_listbox('warna')
             self.warna_entry.delete(0, tk.END)
-
-    # Add more methods here as needed...
 
 if __name__ == "__main__":
     app = Application()
