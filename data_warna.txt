@@ -1,0 +1,5 @@
+DATA_WARNA
+1:merah
+2:biru
+3:kuning
+4:hijau

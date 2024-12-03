@@ -1,0 +1,9 @@
+DATA_FURNITURE
+1:sofa
+2:lemari
+3:kursi
+4:meja
+5:lampu
+
+6:storage
+6:gfsgfdds
