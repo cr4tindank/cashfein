@@ -4,6 +4,7 @@ from datetime import datetime  # For transaction timestamps
 from PIL import Image, ImageTk
 from tkcalendar import Calendar
 
+
 # Main application window
 root = Tk()
 root.geometry("700x400")
